@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cemre 🤍</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Segoe UI', sans-serif;
+    background: linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#f6d365);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    text-align:center;
+    position:relative;
+    z-index:3;
+}
+
+.container img{
+    width:300px;
+    border-radius:25px;
+    box-shadow:0 0 50px rgba(255,255,255,0.9);
+    animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.05); }
+}
+
+.text{
+    margin-top:20px;
+    font-size:24px;
+    font-weight:bold;
+    color:white;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 10px white; }
+    to{ text-shadow:0 0 25px white, 0 0 40px pink; }
+}
+
+/* Buton */
+.love-btn{
+    margin-top:20px;
+    padding:12px 28px;
+    border:none;
+    border-radius:40px;
+    font-size:18px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(45deg,#ff8fb1,#ff5c8a);
+    transition:0.3s;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+.love-btn:hover{
+    transform:scale(1.1);
+}
+
+/* Mesaj */
+.love-message{
+    margin-top:20px;
+    font-size:22px;
+    color:white;
+    white-space:pre-line;
+    text-shadow:0 0 15px white;
+    min-height:60px;
+}
+
+/* Kalp yağışı */
+.fall-heart{
+    position:absolute;
+    top:-30px;
+    font-size:20px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform: translateY(110vh);
+        opacity:0;
+    }
+}
+
+/* Tıklama kalbi */
+.click-heart{
+    position:absolute;
+    font-size:30px;
+    pointer-events:none;
+    animation: pop 1.2s ease-out forwards;
+}
+
+@keyframes pop{
+    0%{ transform: scale(0) translateY(0); opacity:1; }
+    50%{ transform: scale(1.6) translateY(-20px); }
+    100%{ transform: scale(1) translateY(-40px); opacity:0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <img src="cemre.jpg" alt="Sevgilim">
+    <div class="text"> -💗-   
+        <button onclick="romantikSurpriz()" id="kalpButon" class="love-btn">
+        🤍 Sürpriz 🤍
+    </button>
+
+    <p id="gizliMesaj" class="love-message"></p>
+</div>
+
+<script>
+
+/* Kalp yağmuru */
+function createFallingHeart(){
+    const heart = document.createElement("div");
+    heart.classList.add("fall-heart");
+    heart.innerHTML = Math.random() > 0.5 ? "💗" : "🤍";
+
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.animationDuration = (4 + Math.random()*4) + "s";
+    heart.style.zIndex = Math.random() > 0.5 ? "1" : "4";
+    heart.style.fontSize = (15 + Math.random()*20) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{ heart.remove(); },8000);
+}
+
+setInterval(createFallingHeart, 400);
+
+
+/* Sayfa tıklama kalbi */
+document.addEventListener("click", function(e){
+    const heart = document.createElement("div");
+    heart.classList.add("click-heart");
+    heart.innerHTML = "🤍";
+
+    heart.style.left = e.clientX + "px";
+    heart.style.top = e.clientY + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{ heart.remove(); },1200);
+});
+
+
+/* Buton sürprizi */
+let yazildiMi = false;
+
+function romantikSurpriz(){
+    if(yazildiMi) return;
+    yazildiMi = true;
+
+    const mesaj = document.getElementById("gizliMesaj");
+    const buton = document.getElementById("kalpButon");
+
+    const metin = "Kalbimi çalan kız...\nHerşeyimm 🤍\nSeni çok ama çooook seviyorum 🤍.";
+
+    let i = 0;
+
+    buton.style.transform = "scale(1.2)";
+    setTimeout(()=>{buton.style.transform="scale(1)";},200);
+
+    function yaz(){
+        if(i < metin.length){
+            mesaj.innerHTML += metin.charAt(i);
+            i++;
+            setTimeout(yaz,60);
+        }
+    }
+    yaz();
+
+    for(let k=0;k<12;k++){
+        const kalp=document.createElement("div");
+        kalp.classList.add("click-heart");
+        kalp.innerHTML="💗";
+        kalp.style.left=(window.innerWidth/2 + (Math.random()*200-100))+"px";
+        kalp.style.top=(window.innerHeight/2)+"px";
+        document.body.appendChild(kalp);
+
+        setTimeout(()=>{kalp.remove();},1200);
+    }
+}
+
+</script>
+
+</body>
+</html>
